@@ -1,0 +1,7 @@
+*.csv
+*.txt
+*.spec
+venv
+build
+dist
+!requirements.txt
