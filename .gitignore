@@ -1,7 +1,5 @@
 *.csv
-*.txt
+*.json
 *.spec
 venv
 build
-dist
-!requirements.txt
