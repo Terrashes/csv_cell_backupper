@@ -1,4 +1,4 @@
-# csv_cell_backuper
+# CSV_cell_backuper
 Backup CSV cells to JSON that exceed the maximum length supported by office programs to prevent them from being cut off.
 
 ## Execute script using Python:
