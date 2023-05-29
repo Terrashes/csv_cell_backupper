@@ -5,10 +5,11 @@ import re
 import tkinter as tk
 from tkinter import filedialog
 
+csv.field_size_limit(100000000)
 
 def get_cell_values_from_csv(filename, symbols_count_threshold):
     cell_data = {}
-    with open(filename, 'r', encoding='utf-8-sig') as f:
+    with open(filename, 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         for i, row in enumerate(reader):
             for j, cell in enumerate(row):
@@ -20,7 +21,7 @@ def get_cell_values_from_csv(filename, symbols_count_threshold):
 
 
 def write_data_to_csv(filename, cell_data):
-    with open(filename, 'r', encoding='utf-8-sig') as f:
+    with open(filename, 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         rows = list(reader)
 
@@ -37,13 +38,13 @@ def write_data_to_csv(filename, cell_data):
             empty_row[column_index] = cell_value
             rows.extend([empty_row] * (row_index - len(rows) + 1))
 
-    with open(filename, 'w', encoding='utf-8-sig', newline='') as f:
+    with open(filename, 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(rows)
 
 
 def delete_cells_from_csv(filename, cell_data):
-    with open(filename, 'r', encoding='utf-8-sig') as f:
+    with open(filename, 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         rows = list(reader)
 
@@ -52,7 +53,7 @@ def delete_cells_from_csv(filename, cell_data):
         if row_index < len(rows) and column_index < len(rows[row_index]):
             rows[row_index][column_index] = ''
 
-    with open(filename, 'w', encoding='utf-8-sig', newline='') as f:
+    with open(filename, 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(rows)
 
@@ -81,6 +82,16 @@ def browse_csv_file():
     filename = filedialog.askopenfilename(filetypes=[('CSV Files', '*.csv')])
     csv_file_entry.delete(0, tk.END)
     csv_file_entry.insert(0, filename)
+
+def remove_json():
+    csv_file = csv_file_entry.get()
+    json_file = os.path.splitext(csv_file)[0] + ".json"
+    if os.path.exists(json_file):
+        os.remove(json_file)
+        status_label.config(text=f"JSON file '{json_file}' removed.")
+    else:
+        status_label.config(text=f"JSON file '{json_file}' does not exist.")
+
 
 
 def save_cells_to_json():
@@ -120,38 +131,44 @@ def restore_cells_from_json():
     status_label.config(text=f"Cell values restored from {json_file}.")
 
 
+bg_color="#121014"
+fg_color="white"
+elem_color="212121"
+
 root = tk.Tk()
-root.title("CSV Cell Manager")
-# root.iconbitmap('icon.ico')
-root.iconphoto(False, tk.PhotoImage(file="icon.png"))
+root.title("CSV Cell Backupper")
 
-# CSV file selection
-csv_file_label = tk.Label(root, text="CSV File:")
-csv_file_label.grid(row=0, column=0, sticky="e")
+root.configure(bg="#212121")
 
-csv_file_entry = tk.Entry(root, width=40)
+csv_file_label = tk.Label(root, text="CSV File:", fg="white", bg="#212121")
+csv_file_label.grid(row=0, column=0)
+
+csv_file_entry = tk.Entry(root, width=40, fg="white", bg="#212121")
 csv_file_entry.grid(row=0, column=1)
 
-csv_file_browse_button = tk.Button(root, text="Browse", command=browse_csv_file)
+csv_file_browse_button = tk.Button(root, text="Browse", command=browse_csv_file, fg="white", bg="#212121")
 csv_file_browse_button.grid(row=0, column=2)
 
-# Symbols count threshold
-symbols_count_label = tk.Label(root, text="Symbols Count Threshold:")
-symbols_count_label.grid(row=1, column=0, sticky="e")
+symbols_count_label = tk.Label(root, text="Symbols Count Threshold:", fg="white", bg="#212121")
+symbols_count_label.grid(row=1, column=1)
 
-symbols_count_entry = tk.Entry(root, width=10)
-symbols_count_entry.grid(row=1, column=1)
+symbols_count_entry = tk.Entry(root, width=10, fg="white", bg="#212121")
+symbols_count_entry.grid(row=1, column=2)
 symbols_count_entry.insert(0, "32767")
 
-# Save and Restore buttons
-save_button = tk.Button(root, text="Save to JSON", command=save_cells_to_json)
-save_button.grid(row=2, column=0)
+status_label = tk.Label(root, text="", fg="white", bg="#212121")
+status_label.grid(row=2, columnspan=3)
+root.rowconfigure(1, minsize=50)
+root.rowconfigure(3, minsize=50)
 
-restore_button = tk.Button(root, text="Restore from JSON", command=restore_cells_from_json)
-restore_button.grid(row=2, column=1)
+save_button = tk.Button(root, text="Save to JSON", command=save_cells_to_json, fg="white", bg="#212121")
+save_button.grid(row=3, column=0)
 
-# Status label
-status_label = tk.Label(root, text="")
-status_label.grid(row=3, columnspan=3)
+restore_button = tk.Button(root, text="Restore from JSON", command=restore_cells_from_json, fg="white", bg="#212121")
+restore_button.grid(row=3, column=1)
 
+remove_button = tk.Button(root, text="Remove JSON", command=remove_json, fg="white", bg="#6c0f0f")
+remove_button.grid(row=3, column=2)
+
+root.configure(pady=10, padx=10)
 root.mainloop()

@@ -1,6 +1,8 @@
 # CSV_cell_backupper
 Backup CSV cells to JSON that exceed the maximum length supported by office programs to prevent them from being cut off.
 
+![Example Image](screenshot.png)
+
 ## Execute script using Python
 
 1. Install Python 3
@@ -10,7 +12,7 @@ Backup CSV cells to JSON that exceed the maximum length supported by office prog
 
 1. Install Python 3
 2. Install Pyinstaller module
-3. Use command **pyinstaller --onefile --icon=icon.ico --noconsole main.py**
+3. Use command **pyinstaller --onefile --noconsole main.py**
 
 ## Use
 
