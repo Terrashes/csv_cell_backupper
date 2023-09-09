@@ -12,7 +12,7 @@ Backup CSV cells to JSON that exceed the maximum length supported by office prog
 
 1. Install Python 3
 2. Install Pyinstaller module
-3. Build executable using command **pyinstaller --runtime-tmpdir tmp --distpath ./ --onefile --noconsole .\CSVCellBackupper.py**
+3. Build executable using command **pyinstaller --runtime-tmpdir tmp --onefile --noconsole .\CSVCellBackupper.py**
 
 ## Use
 
