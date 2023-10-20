@@ -1,6 +1,7 @@
+build
+tmp
+.venv
+.vscode
 *.csv
 *.json
 *.spec
-build
-tmp
-venv
